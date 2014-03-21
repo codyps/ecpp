@@ -1,0 +1,56 @@
+= ecpp: an extended C preprocessor =
+
+Goals:
+ - support all c11 standard preprocessor bits
+ - gnu and other extentions (pragma once, include_next)
+ - support gnu cpp style arguments (-isystem, -I, -D, -include)
+ - environment
+   - CPATH
+   - C_INCLUDE_PATH
+   - CPLUS_INCLUDE_PATH
+   - DEPENDENCIES_OUTPUT
+   - SUNPRO_DEPENDENCIES
+
+       cpp [-Dmacro[=defn]...] [-Umacro]
+           [-Idir...] [-iquotedir...]
+           [-Wwarn...]
+           [-M|-MM] [-MG] [-MF filename]
+           [-MP] [-MQ target...]
+           [-MT target...]
+           [-P] [-fno-working-directory]
+           [-x language] [-std=standard]
+           infile outfile
+
+Preprocessor directives:
+	#if
+	#else
+	#endif
+	#ifdef
+	#ifndef
+	#elif
+	#include
+	#define
+	#undef
+
+	#include_next
+
+	#pragma once
+
+Proprocessor builtins:
+	defined(<macro name>)
+
+	/* Do we need to recognize this? */
+	_Pragma(<pragma contents>)
+
+Extentons:
+
+	#once
+
+	_Eval()
+
+	_Quote()
+	_Unqoute()
+	_Propogate()()
+
+Issues:
+ - predefined macros are bad news
