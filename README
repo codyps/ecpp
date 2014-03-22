@@ -22,18 +22,18 @@ Goals:
            infile outfile
 
 Preprocessor directives:
-	#if
+	#if <dir-if>
 	#else
 	#endif
-	#ifdef
-	#ifndef
-	#elif
-	#include
-	#define
-	#undef
+	#ifdef <macro-name>
+	#ifndef <macro-name>
+	#elif <dir-if>
+	#include <string>
+	#define <macro-decl> <macro-text>
+	#undef <macro-name>
 
-	#include_next
-
+Typical Extentions:
+	#include_next <string>
 	#pragma once
 
 Proprocessor builtins:
@@ -42,15 +42,40 @@ Proprocessor builtins:
 	/* Do we need to recognize this? */
 	_Pragma(<pragma contents>)
 
-Extentons:
+New Extentons:
 
 	#once
+	 works exactly like "#pragma once" but will cause pp that are
+	 unsuported a warning will be emitted.
 
-	_Eval()
+        #quote-arg <macro-name> <arg-name>
+	 Need a '#define x(y) z' which causes 'x(u)' to evaluate x(u) before evaluating 'u'
 
-	_Quote()
+	_Eval(<text>)
+	 causes text to be evaluated as if it were present in the source file.
+	 Allows dynamic '#define' creation.
+	_Quote(<text>)
+	 prevents evaluation of macros in the text enclused until _Unqoute() is
+	 called on the text.
 	_Unqoute()
-	_Propogate()()
+	 see definition for _Quoute()
+
+   /* String operations
+    * FIXME: allow generic definition of these
+    * "split" ??
+    */
+        _DeclToName()
+	_ToUpper()
+	_ToLower()
+
+Extented CPP lib:
+
+   /* define(<macro-decl>[ <macro-text>]) */
+   #define define(a)	_Eval(#define a)
+
+   /* redefine(<macro-def>) */
+   #define redefine(a) _EvalDir(undef def_to_name(a)) _EvalDir(define a)
+
 
 Issues:
  - predefined macros are bad news
